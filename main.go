@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/brunats/govid/internal/cli"
+)
 
 func main() {
-	fmt.Println("Ola")
+	cli.Parse()
+
+	country := cli.Country()
+	format := cli.Format()
+
+	fmt.Println("country:", country)
+	fmt.Println("format:", format)
 }
