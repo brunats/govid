@@ -12,5 +12,10 @@ go install github.com/brunats/govid
 ```bash
 govid --help
 govid --version
-govid --country BR
+govid --country BR --format JSON
+```
+
+## Teste
+```
+go test ./...
 ```
