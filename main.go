@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/brunats/govid/formatters"
+	"github.com/brunats/govid/formatters/table"
 	"github.com/brunats/govid/internal/cli"
 	"github.com/brunats/govid/providers"
 	"github.com/brunats/govid/providers/nowsh"
@@ -14,9 +15,9 @@ func main() {
 
 	// Register providers
 	providers.Register(nowsh.New())
+	formatters.Register(table.New())
 
 	ctx := ctx()
-
 
 	// Request providers
 	for _, provider := range providers.Providers() {
@@ -28,7 +29,10 @@ func main() {
 	}
 
 	for _, provider := range providers.Providers() {
-		fmt.Println(provider.Response())
+		// fmt.Println(provider.Response())
+		for _, formatter := range formatters.Formatters() {
+			formatter.Presentation(ctx, provider.Response())
+		}
 	}
 }
 
