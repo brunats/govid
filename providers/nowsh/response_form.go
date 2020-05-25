@@ -1,5 +1,9 @@
 package nowsh
 
-type responseForm struct {
+type responseFormAll struct {
 	CountryInfos []countryInfo `json:"data"`
+}
+
+type responseFormOne struct {
+	CountryInfo countryInfo `json:"data"`
 }
