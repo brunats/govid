@@ -43,7 +43,7 @@ func (p *provider) Request(ctx context.Context) {
 	defer p.wg.Done()
 
 	if ctx.Value(cli.CountryKey).(string) == "ANY" {
-		requestCountries(ctx)
+		p.requestCountries()
 	}
 }
 
@@ -55,7 +55,7 @@ func (p *provider) Response() []providers.Data {
 	return p.response
 }
 
-func (p *provider) requestCountries(context.Context) {
+func (p *provider) requestCountries() {
 	resp, err := http.Get("https://covid19-brazil-api.now.sh/api/report/v1/countries")
 	if err != nil {
 		p.appendErrorResponse(err)
