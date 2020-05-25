@@ -7,28 +7,17 @@ import (
 	"fmt"
 	"net/http"
 	"sync"
-	"time"
 
 	"github.com/brunats/govid/internal/cli"
 	"github.com/brunats/govid/providers"
 )
 
+// NowShURL used to call api
+const NowShURL = "https://covid19-brazil-api.now.sh/api/report/v1/countries"
+
 type provider struct {
 	wg       sync.WaitGroup
 	response []providers.Data
-}
-
-type countryInfo struct {
-	Country   string    `json:"country"`
-	Cases     int       `json:"cases"`
-	Confirmed int       `json:"confirmed"`
-	Recovered int       `json:"recovered"`
-	Deaths    int       `json:"deaths"`
-	UpdatedAt time.Time `json:"updated_at"`
-}
-
-type responseForm struct {
-	CountryInfos []countryInfo `json:"data"`
 }
 
 // New nowsh provider
@@ -56,7 +45,7 @@ func (p *provider) Response() []providers.Data {
 }
 
 func (p *provider) requestCountries() {
-	resp, err := http.Get("https://covid19-brazil-api.now.sh/api/report/v1/countries")
+	resp, err := http.Get(NowShURL)
 	if err != nil {
 		p.appendErrorResponse(err)
 		return
