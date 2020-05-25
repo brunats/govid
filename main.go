@@ -18,8 +18,9 @@ func main() {
 	// Request providers
 	ctx := ctx()
 
+
 	for _, provider := range providers.Providers() {
-		provider.Request(ctx)
+		go provider.Request(ctx)
 	}
 
 	for _, provider := range providers.Providers() {
