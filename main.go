@@ -29,7 +29,6 @@ func main() {
 	}
 
 	for _, provider := range providers.Providers() {
-		// fmt.Println(provider.Response())
 		for _, formatter := range formatters.Formatters() {
 			formatter.Presentation(ctx, provider.Response())
 		}
