@@ -1,13 +1,16 @@
 package formatters
 
-import "context"
+import (
+	"context"
+
+	"github.com/brunats/govid/providers"
+)
 
 var formatters []Formatter
 
 // Formatter interface
 type Formatter interface {
-	Receive(ctx context.Context)
-	Presentation(ctx context.Context)
+	Presentation(ctx context.Context, providersData []providers.Data)
 }
 
 // Register formatter
