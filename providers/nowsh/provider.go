@@ -10,8 +10,11 @@ import (
 	"github.com/brunats/govid/providers"
 )
 
-// NowShURL used to call api
-const NowShURL = "https://covid19-brazil-api.now.sh/api/report/v1/countries"
+// NowShURLAll used to call api for all countries
+const NowShURLAll = "https://covid19-brazil-api.now.sh/api/report/v1/countries"
+
+// NowShURLOn used to call api for all countries
+const NowShURLOn = "https://covid19-brazil-api.now.sh/api/report/v1/"
 
 type provider struct {
 	wg       sync.WaitGroup
@@ -29,9 +32,12 @@ func New() providers.Provider {
 
 func (p *provider) Request(ctx context.Context) {
 	defer p.wg.Done()
+	country := ctx.Value(cli.CountryKey).(string)
 
-	if ctx.Value(cli.CountryKey).(string) == "ANY" {
+	if country == "ANY" {
 		p.requestCountries()
+	} else {
+		p.requestCountry(country)
 	}
 }
 
@@ -47,7 +53,7 @@ func (p *provider) requestCountries() {
 	reader, err := p.service.RequestCountries()
 
 	if err == nil {
-		form := &responseForm{}
+		form := &responseFormAll{}
 		err := json.NewDecoder(reader).Decode(form)
 		if err != nil {
 			p.appendErrorResponse(err)
@@ -56,6 +62,22 @@ func (p *provider) requestCountries() {
 		for _, info := range form.CountryInfos {
 			p.appendResponse(info)
 		}
+	} else {
+		p.appendErrorResponse(err)
+	}
+}
+
+func (p *provider) requestCountry(countryName string) {
+	reader, err := p.service.RequestCountry(countryName)
+
+	if err == nil {
+		form := &responseFormOne{}
+		err := json.NewDecoder(reader).Decode(form)
+		if err != nil {
+			p.appendErrorResponse(err)
+		}
+
+		p.appendResponse(form.CountryInfo)
 	} else {
 		p.appendErrorResponse(err)
 	}

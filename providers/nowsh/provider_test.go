@@ -29,6 +29,19 @@ func (s *requestServiceFakeWithErrors) RequestCountries() (io.Reader, error) {
 	return nil, err
 }
 
+func (s *requestServiceFakeWithoutErrors) RequestCountry(countryName string) (io.Reader, error) {
+	file, _ := os.Open("country.json")
+	reader := bufio.NewReader(file)
+
+	return reader, nil
+}
+
+func (s *requestServiceFakeWithErrors) RequestCountry(countryName string) (io.Reader, error) {
+	err := fmt.Errorf("fake error")
+
+	return nil, err
+}
+
 func TestNew(t *testing.T) {
 	provider := New()
 
@@ -60,6 +73,17 @@ func TestRequestCountriesWithError(t *testing.T) {
 	}
 
 	if provider.response[0].Error == nil {
+		t.Fail()
+	}
+}
+
+func TestRequestCountry(t *testing.T) {
+	wg := sync.WaitGroup{}
+
+	provider := &provider{wg: wg, service: &requestServiceFakeWithoutErrors{}}
+	provider.requestCountry("Brazil")
+
+	if len(provider.response) != 1 {
 		t.Fail()
 	}
 }

@@ -1,0 +1,10 @@
+{
+  "data": {
+    "country": "Brazil",
+    "cases": 1000,
+    "confirmed": 1000,
+    "deaths": 1,
+    "recovered": 999,
+    "updated_at": "2020-03-22T02:13:13.000Z"
+  }
+}
