@@ -3,6 +3,7 @@ package table
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/brunats/govid/formatters"
 	"github.com/brunats/govid/internal/cli"
@@ -53,5 +54,5 @@ func presentationCountry(providerData providers.Data) string {
 }
 
 func print(lines []string) {
-
+	fmt.Println(strings.Join(lines, ""))
 }
