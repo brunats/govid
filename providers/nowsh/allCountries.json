@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "country": "Brazil",
+      "cases": 190634,
+      "confirmed": 363211,
+      "deaths": 22666,
+      "recovered": 149911,
+      "updated_at": "2020-05-25T15:32:41.000Z"
+    },
+    {
+      "country": "Canada",
+      "cases": 35396,
+      "confirmed": 86149,
+      "deaths": 6534,
+      "recovered": 44219,
+      "updated_at": "2020-05-25T15:32:41.000Z"
+    },
+    {
+      "country": "China",
+      "cases": 110,
+      "confirmed": 84095,
+      "deaths": 4638,
+      "recovered": 79347,
+      "updated_at": "2020-05-25T15:32:41.000Z"
+    },
+    {
+      "country": "US",
+      "cases": 1211330,
+      "confirmed": 1647741,
+      "deaths": 97811,
+      "recovered": 366736,
+      "updated_at": "2020-05-25T15:32:41.000Z"
+    },
+    {
+      "country": "Italy",
+      "cases": 56594,
+      "confirmed": 229858,
+      "deaths": 32785,
+      "recovered": 140479,
+      "updated_at": "2020-05-25T15:32:41.000Z"
+    }
+  ]
+}

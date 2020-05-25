@@ -1,6 +1,12 @@
 package nowsh
 
-import "testing"
+import (
+	"bufio"
+	"io"
+	"os"
+	"sync"
+	"testing"
+)
 
 func TestNew(t *testing.T) {
 	provider := New()
@@ -11,23 +17,28 @@ func TestNew(t *testing.T) {
 }
 
 type serviceFake interface {
-	RequestCountriesFake() (io.Reader, error)
+	RequestCountries() (io.Reader, error)
 }
 
-func RequestCountriesFake() (io.Reader, error) {
-	resp, err := http.Get(NowShURL)
-	if err != nil {
-		return nil, err
-	}
+type requestServiceFake struct{}
 
-	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New("status != 200")
-	}
+func (s *requestServiceFake) RequestCountries() (io.Reader, error) {
+	file, _ := os.Open("allCountries.json")
+	reader := bufio.NewReader(file)
 
-	return resp.Body, nil
+	return reader, nil
 }
 
+func TestRequestCountries(t *testing.T) {
+	wg := sync.WaitGroup{}
 
-func TestRequest(t *testing.T) {
-	
+	provider := &provider{}
+	provider.wg = wg
+	provider.service = &requestServiceFake{}
+
+	provider.requestCountries()
+
+	if len(provider.response) != 5 {
+		t.Fail()
+	}
 }
