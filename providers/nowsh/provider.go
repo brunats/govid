@@ -3,9 +3,8 @@ package nowsh
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"net/http"
+	"os"
 	"sync"
 
 	"github.com/brunats/govid/internal/cli"
@@ -18,13 +17,14 @@ const NowShURL = "https://covid19-brazil-api.now.sh/api/report/v1/countries"
 type provider struct {
 	wg       sync.WaitGroup
 	response []providers.Data
+	service  service
 }
 
 // New nowsh provider
 func New() providers.Provider {
 	wg := sync.WaitGroup{}
 
-	return &provider{wg: wg}
+	return &provider{wg: wg, service: &requestService{}}
 }
 
 func (p *provider) Request(ctx context.Context) {
@@ -45,15 +45,11 @@ func (p *provider) Response() []providers.Data {
 }
 
 func (p *provider) requestCountries() {
-	resp, err := http.Get(NowShURL)
-	if err != nil {
-		p.appendErrorResponse(err)
-		return
-	}
+	reader, err := p.service.RequestCountries()
 
-	if resp.StatusCode == http.StatusOK {
+	if err == nil {
 		form := &responseForm{}
-		err := json.NewDecoder(resp.Body).Decode(form)
+		err := json.NewDecoder(reader).Decode(form)
 		if err != nil {
 			p.appendErrorResponse(err)
 		}
@@ -62,7 +58,7 @@ func (p *provider) requestCountries() {
 			p.appendResponse(info)
 		}
 	} else {
-		p.appendErrorResponse(errors.New("bad request"))
+		p.appendErrorResponse(err)
 	}
 }
 
