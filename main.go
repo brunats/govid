@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/brunats/govid/internal/cli"
@@ -9,9 +10,20 @@ import (
 func main() {
 	cli.Parse()
 
-	country := cli.Country()
-	format := cli.Format()
+	country := ctx().Value(cli.CountryKey).(string)
+	format := ctx().Value(cli.FormatKey).(string)
+	fmt.Println(format)
+	fmt.Println(country)
+}
 
-	fmt.Println("country:", country)
-	fmt.Println("format:", format)
+func ctx() context.Context {
+	return context.WithValue(
+		context.WithValue(
+			context.Background(),
+			cli.CountryKey,
+			cli.Country(),
+		),
+		cli.FormatKey,
+		cli.Format(),
+	)
 }
