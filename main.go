@@ -15,10 +15,10 @@ func main() {
 	// Register providers
 	providers.Register(nowsh.New())
 
-	// Request providers
 	ctx := ctx()
 
 
+	// Request providers
 	for _, provider := range providers.Providers() {
 		go provider.Request(ctx)
 	}

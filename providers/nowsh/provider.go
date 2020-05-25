@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 	"sync"
 
 	"github.com/brunats/govid/internal/cli"
@@ -23,12 +22,12 @@ type provider struct {
 // New nowsh provider
 func New() providers.Provider {
 	wg := sync.WaitGroup{}
+	wg.Add(1)
 
 	return &provider{wg: wg, service: &requestService{}}
 }
 
 func (p *provider) Request(ctx context.Context) {
-	p.wg.Add(1)
 	defer p.wg.Done()
 
 	if ctx.Value(cli.CountryKey).(string) == "ANY" {
