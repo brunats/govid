@@ -22,7 +22,7 @@ type Data struct {
 type Provider interface {
 	Request(ctx context.Context)
 	Wait()
-	Response() []Data
+	Response() []*Data
 }
 
 // Register provider
