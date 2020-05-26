@@ -7,18 +7,15 @@ import (
 )
 
 func TestProcessing(t *testing.T) {
-	var dataProviderFake providers.Data
+	dataProviderFake := &providers.Data{Deaths: 10, Confirmed: 100}
 
-	dataProviderFake.Deaths = 10
-	dataProviderFake.Confirmed = 100
+	Processing(dataProviderFake)
 
-	data := Processing(dataProviderFake)
-
-	if data.Processing.MortalityRate == 0 {
+	if dataProviderFake.Processing.MortalityRate == 0 {
 		t.Fail()
 	}
 
-	if data.Processing.MortalityRate != int((100*100)/10) {
+	if dataProviderFake.Processing.MortalityRate != int((100*100)/10) {
 		t.Fail()
 	}
 }
