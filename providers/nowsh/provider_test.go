@@ -17,7 +17,7 @@ type requestServiceFakeWithoutErrors struct{}
 type requestServiceFakeWithErrors struct{}
 
 func (s *requestServiceFakeWithoutErrors) RequestCountries() (io.Reader, error) {
-	file, _ := os.Open("allCountries.json")
+	file, _ := os.Open("allCountries_test.json")
 	reader := bufio.NewReader(file)
 
 	return reader, nil
@@ -30,7 +30,7 @@ func (s *requestServiceFakeWithErrors) RequestCountries() (io.Reader, error) {
 }
 
 func (s *requestServiceFakeWithoutErrors) RequestCountry(countryName string) (io.Reader, error) {
-	file, _ := os.Open("country.json")
+	file, _ := os.Open("country_test.json")
 	reader := bufio.NewReader(file)
 
 	return reader, nil
