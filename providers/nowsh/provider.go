@@ -18,7 +18,7 @@ const NowShURLOn = "https://covid19-brazil-api.now.sh/api/report/v1/"
 
 type provider struct {
 	wg       sync.WaitGroup
-	response []providers.Data
+	response []*providers.Data
 	service  service
 }
 
@@ -45,7 +45,7 @@ func (p *provider) Wait() {
 	p.wg.Wait()
 }
 
-func (p *provider) Response() []providers.Data {
+func (p *provider) Response() []*providers.Data {
 	return p.response
 }
 
@@ -86,7 +86,7 @@ func (p *provider) requestCountry(countryName string) {
 func (p *provider) appendResponse(info countryInfo) {
 	p.response = append(
 		p.response,
-		providers.Data{
+		&providers.Data{
 			Provider:  "nowsh",
 			Error:     nil,
 			Confirmed: info.Confirmed,
@@ -100,7 +100,7 @@ func (p *provider) appendResponse(info countryInfo) {
 func (p *provider) appendErrorResponse(err error) {
 	p.response = append(
 		p.response,
-		providers.Data{
+		&providers.Data{
 			Provider: "nowsh",
 			Error:    fmt.Errorf("nowsh provider: %w", err),
 		},
