@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/brunats/govid/formatters"
-	"github.com/brunats/govid/formatters/table"
 	"github.com/brunats/govid/internal/cli"
 	"github.com/brunats/govid/providers"
 	"github.com/brunats/govid/providers/nowsh"
@@ -15,7 +14,6 @@ func main() {
 
 	// Register providers
 	providers.Register(nowsh.New())
-	formatters.Register(table.New())
 
 	ctx := ctx()
 
@@ -28,11 +26,13 @@ func main() {
 		provider.Wait()
 	}
 
+	var dataProviders []providers.Data
 	for _, provider := range providers.Providers() {
-		for _, formatter := range formatters.Formatters() {
-			formatter.Presentation(ctx, provider.Response())
-		}
+		dataProviders = append(dataProviders, provider.Response()...)
 	}
+
+	formatter := formatters.Selection(ctx)
+	formatter.Presentation(dataProviders)
 }
 
 func ctx() context.Context {

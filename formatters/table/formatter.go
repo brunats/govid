@@ -1,39 +1,31 @@
 package table
 
 import (
-	"context"
 	"fmt"
 	"strings"
 
-	"github.com/brunats/govid/formatters"
-	"github.com/brunats/govid/internal/cli"
 	"github.com/brunats/govid/providers"
 )
 
 const (
-	divider    = "+-------------------------------------------------------------------------------------+\n"
-	dividerAux = "---------------------------------------------------------------------------------------\n"
+	divider    = "+-----------------------------------------------------------------------------------------------------+\n"
+	dividerAux = "-------------------------------------------------------------------------------------------------------\n"
 )
 
-type formatter struct{}
+// Formatter as table
+type Formatter struct{}
 
 // New table formatter
-func New() formatters.Formatter {
-	return &formatter{}
+func New() *Formatter {
+	return &Formatter{}
 }
 
 // Presentation of provider
-func (f *formatter) Presentation(ctx context.Context, providersData []providers.Data) {
-	if ctx.Value(cli.FormatKey).(string) != "table" {
-		return
-	}
-
+func (f *Formatter) Presentation(providersData []providers.Data) {
 	var lines []string
 
-	linesOfHeader := presentationHeader(providersData[0].Provider)
-	lines = append(lines, divider, divider)
-	lines = append(lines, linesOfHeader...)
-	lines = append(lines, divider)
+	lineHeader := presentationHeader()
+	lines = append(lines, divider, divider, lineHeader, divider)
 
 	for _, provider := range providersData {
 		lines = append(lines, presentationCountry(provider), dividerAux)
@@ -43,16 +35,14 @@ func (f *formatter) Presentation(ctx context.Context, providersData []providers.
 	print(lines)
 }
 
-func presentationHeader(provider string) []string {
-	var lines []string
-	lines = append(lines, fmt.Sprintf("+ Source: %s %70s+\n", provider, " "))
-	lines = append(lines, fmt.Sprintf("+%35s %15s %15s %15s %1s+\n", "Country", "Confirmed", "Deaths", "Recovered", " "))
+func presentationHeader() string {
+	line := fmt.Sprintf("+%35s %15s %15s %15s %15s %1s+\n", "Country", "Confirmed", "Deaths", "Recovered", "Source", " ")
 
-	return lines
+	return line
 }
 
 func presentationCountry(providerData providers.Data) string {
-	return fmt.Sprintf("+%35s %15d %15d %15d %1s+\n", providerData.Country, providerData.Confirmed, providerData.Deaths, providerData.Recovered, " ")
+	return fmt.Sprintf("+%32s %15d %15d %15d %15s %1s+\n", providerData.Country, providerData.Confirmed, providerData.Deaths, providerData.Recovered, providerData.Provider, " ")
 }
 
 func print(lines []string) {

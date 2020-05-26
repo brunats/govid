@@ -27,23 +27,18 @@ func TestPresentationCountry(t *testing.T) {
 
 	line := presentationCountry(dataFake)
 
-	lineExpected := fmt.Sprintf("+%35s %15d %15d %15d %1s+\n", dataFake.Country, dataFake.Confirmed, dataFake.Deaths, dataFake.Recovered, " ")
+	lineExpected := fmt.Sprintf("+%32s %15d %15d %15d %15s %1s+\n", dataFake.Country, dataFake.Confirmed, dataFake.Deaths, dataFake.Recovered, dataFake.Provider, " ")
 	if line != lineExpected {
 		t.Fail()
 	}
 }
 
 func TestPresentationHeader(t *testing.T) {
-	providerName := "dataFake"
-	var linesExpected []string
-	linesExpected = append(linesExpected, fmt.Sprintf("+ Source: %s %70s+\n", providerName, " "))
-	linesExpected = append(linesExpected, fmt.Sprintf("+%35s %15s %15s %15s %1s+\n", "Country", "Confirmed", "Deaths", "Recovered", " "))
+	lineExpected := fmt.Sprintf("+%35s %15s %15s %15s %15s %1s+\n", "Country", "Confirmed", "Deaths", "Recovered", "Source", " ")
 
-	headerLines := presentationHeader(providerName)
+	headerLines := presentationHeader()
 
-	for index, lineExpected := range linesExpected {
-		if headerLines[index] != lineExpected {
-			t.Fail()
-		}
+	if headerLines != lineExpected {
+		t.Fail()
 	}
 }
