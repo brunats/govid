@@ -15,7 +15,7 @@ func TestProcessing(t *testing.T) {
 		t.Fail()
 	}
 
-	if dataProviderFake.Processing.MortalityRate != int((100*100)/10) {
+	if dataProviderFake.Processing.MortalityRate != int((10*100)/100) {
 		t.Fail()
 	}
 }
