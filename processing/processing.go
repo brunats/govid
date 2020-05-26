@@ -1,6 +1,8 @@
 package processing
 
-import "github.com/brunats/govid/providers"
+import (
+	"github.com/brunats/govid/providers"
+)
 
 // Processing generates data
 func Processing(data *providers.Data) {
@@ -8,5 +10,9 @@ func Processing(data *providers.Data) {
 }
 
 func calculateMortalityRate(confirmed int, deaths int) int {
+	if deaths == 0 {
+		return 0
+	}
+
 	return ((confirmed * 100) / deaths)
 }
