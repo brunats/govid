@@ -1,11 +1,13 @@
 package cli
 
+import "strings"
+
 // Country to filter
 func Country() string {
-	return country
+	return strings.ToTitle(country)
 }
 
 // Format in output
 func Format() string {
-	return format
+	return strings.ToTitle(format)
 }

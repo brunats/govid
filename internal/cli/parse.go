@@ -9,7 +9,7 @@ const (
 )
 
 var (
-	country string = "ANY"
+	country string = "any"
 	format  string = "table"
 )
 

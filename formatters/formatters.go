@@ -23,8 +23,8 @@ func Register(formatter Formatter) {
 
 // Selection a provider
 func Selection(ctx context.Context) Formatter {
-	formatTable := "table"
-	formatJSON := "json"
+	formatTable := "TABLE"
+	formatJSON := "JSON"
 
 	switch ctx.Value(cli.FormatKey).(string) {
 	case formatTable:
