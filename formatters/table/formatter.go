@@ -21,7 +21,7 @@ func New() *Formatter {
 }
 
 // Presentation of provider
-func (f *Formatter) Presentation(providersData []providers.Data) {
+func (f *Formatter) Presentation(providersData []*providers.Data) {
 	var lines []string
 
 	lineHeader := presentationHeader()
@@ -41,7 +41,7 @@ func presentationHeader() string {
 	return line
 }
 
-func presentationCountry(providerData providers.Data) string {
+func presentationCountry(providerData *providers.Data) string {
 	return fmt.Sprintf("+%32s %15d %15d %15d %15s %1s+\n", providerData.Country, providerData.Confirmed, providerData.Deaths, providerData.Recovered, providerData.Provider, " ")
 }
 

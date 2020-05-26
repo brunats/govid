@@ -16,7 +16,7 @@ func TestNew(t *testing.T) {
 }
 
 func TestPresentationCountry(t *testing.T) {
-	dataFake := providers.Data{
+	dataFake := &providers.Data{
 		Provider:  "test",
 		Error:     nil,
 		Confirmed: 10000,
