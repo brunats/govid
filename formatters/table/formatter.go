@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	divider    = "+--------------------------------------------------------------------------------------------------+\n"
-	dividerAux = "----------------------------------------------------------------------------------------------------\n"
+	divider    = "+-------------------------------------------------------------------------------------------------------------------+\n"
+	dividerAux = "---------------------------------------------------------------------------------------------------------------------\n"
 )
 
 // Formatter as table
@@ -36,13 +36,31 @@ func (f *Formatter) Presentation(providersData []*providers.Data) {
 }
 
 func presentationHeader() string {
-	line := fmt.Sprintf("+%32s %15s %15s %15s %15s %1s+\n", "Country", "Confirmed", "Deaths", "Recovered", "Source", " ")
+	line := fmt.Sprintf(
+		"+%32s %15s %15s %15s %15s %15s %1s+\n",
+		"Country",
+		"Confirmed",
+		"Deaths",
+		"Recovered",
+		"Mortality Rate",
+		"Source",
+		" ",
+	)
 
 	return line
 }
 
 func presentationCountry(providerData *providers.Data) string {
-	return fmt.Sprintf("+%32s %15d %15d %15d %15s %1s+\n", providerData.Country, providerData.Confirmed, providerData.Deaths, providerData.Recovered, providerData.Provider, " ")
+	return fmt.Sprintf(
+		"+%32s %15d %15d %15d %15d%% %15s %1s+\n",
+		providerData.Country,
+		providerData.Confirmed,
+		providerData.Deaths,
+		providerData.Recovered,
+		providerData.Processing.MortalityRate,
+		providerData.Provider,
+		" ",
+	)
 }
 
 func print(lines []string) {
