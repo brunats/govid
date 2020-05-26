@@ -8,6 +8,9 @@ Utilizando cálculos gerados dentro do Govid é informada também a taxa de mort
 
 Temos como provedor atual de dados a API: [Covid 19 Brazil API](https://github.com/devarthurribeiro/covid19-brazil-api).
 
+## Dependências
+
+> Golang 1.14
 
 ## Instalação
 
