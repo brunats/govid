@@ -34,7 +34,7 @@ func TestPresentationCountry(t *testing.T) {
 }
 
 func TestPresentationHeader(t *testing.T) {
-	lineExpected := fmt.Sprintf("+%35s %15s %15s %15s %15s %1s+\n", "Country", "Confirmed", "Deaths", "Recovered", "Source", " ")
+	lineExpected := fmt.Sprintf("+%32s %15s %15s %15s %15s %1s+\n", "Country", "Confirmed", "Deaths", "Recovered", "Source", " ")
 
 	headerLines := presentationHeader()
 
