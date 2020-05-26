@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/brunats/govid/internal/cli"
@@ -67,8 +68,8 @@ func (p *provider) requestCountries() {
 	}
 }
 
-func (p *provider) requestCountry(countryName string) {
-	reader, err := p.service.RequestCountry(countryName)
+func (p *provider) requestCountry(countryAbbreviation string) {
+	reader, err := p.service.RequestCountry(getCountryFullName(countryAbbreviation))
 
 	if err == nil {
 		form := &responseFormOne{}
@@ -81,6 +82,10 @@ func (p *provider) requestCountry(countryName string) {
 	} else {
 		p.appendErrorResponse(err)
 	}
+}
+
+func getCountryFullName(abbreviation string) string {
+	return CountryCode[strings.ToTitle(abbreviation)]
 }
 
 func (p *provider) appendResponse(info countryInfo) {
