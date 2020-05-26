@@ -14,5 +14,5 @@ func calculateMortalityRate(confirmed int, deaths int) int {
 		return 0
 	}
 
-	return ((confirmed * 100) / deaths)
+	return ((deaths * 100) / confirmed)
 }

@@ -22,7 +22,7 @@ func TestProcessing(t *testing.T) {
 func TestCalculateMortalityRateWithDeaths(t *testing.T) {
 	confirmed := 363211
 	deaths := 22666
-	mortalityRateExpected := int((confirmed * 100) / deaths)
+	mortalityRateExpected := int((deaths * 100) / confirmed)
 
 	calculatedMortalityRate := calculateMortalityRate(confirmed, deaths)
 
