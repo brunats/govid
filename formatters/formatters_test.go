@@ -21,7 +21,7 @@ var ctxFake = context.WithValue(
 	"table",
 )
 
-func (f *FormaterFake) Presentation(providersData []providers.Data) {}
+func (f *FormaterFake) Presentation(providersData []*providers.Data) {}
 
 func TestRegisterFormatters(t *testing.T) {
 	Register(&FormaterFake{})

@@ -12,7 +12,7 @@ var formatters []Formatter
 
 // Formatter interface
 type Formatter interface {
-	Presentation(providersData []providers.Data)
+	Presentation(providersData []*providers.Data)
 }
 
 // Register formatter
