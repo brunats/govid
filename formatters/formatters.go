@@ -3,6 +3,7 @@ package formatters
 import (
 	"context"
 
+	"github.com/brunats/govid/formatters/json"
 	"github.com/brunats/govid/formatters/table"
 	"github.com/brunats/govid/internal/cli"
 	"github.com/brunats/govid/providers"
@@ -22,11 +23,15 @@ func Register(formatter Formatter) {
 
 // Selection a provider
 func Selection(ctx context.Context) Formatter {
-	formatterTable := "table"
+	formatTable := "table"
+	formatJSON := "json"
 
 	switch ctx.Value(cli.FormatKey).(string) {
-	case formatterTable:
+	case formatTable:
 		return table.New()
+
+	case formatJSON:
+		return json.New()
 
 	default:
 		return table.New()
