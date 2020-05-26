@@ -5,6 +5,7 @@ import (
 
 	"github.com/brunats/govid/formatters"
 	"github.com/brunats/govid/internal/cli"
+	"github.com/brunats/govid/processing"
 	"github.com/brunats/govid/providers"
 	"github.com/brunats/govid/providers/nowsh"
 )
@@ -22,15 +23,23 @@ func main() {
 		go provider.Request(ctx)
 	}
 
+	// Awaiting completion
 	for _, provider := range providers.Providers() {
 		provider.Wait()
 	}
 
-	var dataProviders []providers.Data
+	// Merge results
+	var dataProviders []*providers.Data
 	for _, provider := range providers.Providers() {
 		dataProviders = append(dataProviders, provider.Response()...)
 	}
 
+	// Processing
+	for _, data := range dataProviders {
+		processing.Processing(data)
+	}
+
+	// Results
 	formatter := formatters.Selection(ctx)
 	formatter.Presentation(dataProviders)
 }
