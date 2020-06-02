@@ -9,8 +9,8 @@ const (
 )
 
 var (
-	country string = "any"
-	format  string = "table"
+	country string = "ANY"
+	format  string = "TABLE"
 )
 
 // Parse cli flags
